@@ -433,106 +433,8 @@ h1 {
   }
 }
 
-/* ── Ladybug ── */
-
-.ladybug {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 45px;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  will-change: transform;
-  filter: drop-shadow(0 2px 6px rgba(20, 10, 5, 0.25));
-}
-
-.ladybug svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* Legs wiggle while flying */
-.lb-legs {
-  transform-origin: 40px 46px;
-}
-
-.ladybug--flying .lb-legs {
-  animation: legsWiggle 0.25s ease-in-out infinite alternate;
-}
-
-@keyframes legsWiggle {
-  0%   { transform: rotate(-4deg); }
-  100% { transform: rotate(4deg); }
-}
-
-/* Legs walk while crawling */
-.ladybug--crawling .lb-legs {
-  animation: legsWalk 0.35s ease-in-out infinite alternate;
-}
-
-@keyframes legsWalk {
-  0%   { transform: scaleY(1) rotate(-2deg); }
-  50%  { transform: scaleY(0.95) rotate(0deg); }
-  100% { transform: scaleY(1) rotate(2deg); }
-}
-
-/* Wing covers flutter open while flying */
-.lb-wing--left {
-  transform-origin: 40px 46px;
-}
-
-.lb-wing--right {
-  transform-origin: 40px 46px;
-}
-
-.ladybug--flying .lb-wing--left {
-  animation: wingOpenLeft 0.35s ease-in-out infinite alternate;
-}
-
-.ladybug--flying .lb-wing--right {
-  animation: wingOpenRight 0.35s ease-in-out infinite alternate;
-}
-
-@keyframes wingOpenLeft {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(-10deg) translateX(-1.5px); }
-}
-
-@keyframes wingOpenRight {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(10deg) translateX(1.5px); }
-}
-
-/* Bob while flying */
-.ladybug--flying {
-  animation: bugBob 0.9s ease-in-out infinite;
-}
-
-@keyframes bugBob {
-  0%, 100% { margin-top: 0; }
-  50%      { margin-top: -5px; }
-}
-
-/* Landed + crawling — wings closed, legs walking */
-.ladybug--landed .lb-wing--left,
-.ladybug--landed .lb-wing--right {
-  animation: none;
-  transform: rotate(0deg);
-}
-
-.ladybug--landed {
-  animation: none;
-}
-
 /* Smaller on mobile */
 @media (max-width: 500px) {
-  .ladybug {
-    width: 28px;
-    height: 32px;
-
   .hero-top {
     flex-direction: column;
     gap: 0.9rem;
@@ -541,15 +443,10 @@ h1 {
   .hero-meta {
     text-align: center;
   }
-  }
 }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .ladybug,
-  .lb-legs,
-  .lb-wing--left,
-  .lb-wing--right,
   .bubble {
     animation: none !important;
     transition: none !important;
