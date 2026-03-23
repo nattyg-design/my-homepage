@@ -14,7 +14,13 @@
   </head>
   <body>
     <!-- Floating bubbles -->
-    <div class="bubbles" aria-hidden="true">
+    <div class="bubbles">
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
       <span class="bubble"></span>
       <span class="bubble"></span>
       <span class="bubble"></span>
@@ -55,6 +61,48 @@
         </div>
       </div>
     </main>
+
+    <script>
+    (function () {
+      function playPopSound() {
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var now = audioContext.currentTime;
+        var gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+
+        // High-pitched pop (primary tone)
+        var osc1 = audioContext.createOscillator();
+        osc1.type = 'sine';
+        osc1.connect(gainNode);
+        osc1.start(now);
+        osc1.stop(now + 0.15);
+
+        // Fast pitch bend from high to mid
+        osc1.frequency.setValueAtTime(900, now);
+        osc1.frequency.exponentialRampToValueAtTime(400, now + 0.15);
+
+        // Envelope: quick attack, gentle decay
+        gainNode.gain.setValueAtTime(0.35, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.05, now + 0.12);
+        gainNode.gain.linearRampToValueAtTime(0, now + 0.15);
+      }
+
+      var bubbles = document.querySelectorAll('.bubble');
+      bubbles.forEach(function (bubble) {
+        bubble.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (bubble.classList.contains('bubble--popped')) return;
+
+          bubble.classList.add('bubble--popped');
+          playPopSound();
+
+          setTimeout(function () {
+            bubble.style.display = 'none';
+          }, 400);
+        });
+      });
+    })();
+    </script>
 
     <script src="weather-widget.js"></script>
   </body>
