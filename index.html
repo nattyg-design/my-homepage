@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Theme toggle switch -->
+    <div class="theme-switch-container">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle" />
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
     <!-- Floating bubbles -->
     <div class="bubbles">
       <span class="bubble"></span>
@@ -63,6 +71,33 @@
     </main>
 
     <script>
+    // Theme toggle
+    (function () {
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var savedTheme = localStorage.getItem('theme');
+      var isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+      
+      var toggle = document.getElementById('theme-toggle');
+      
+      function applyTheme(dark) {
+        if (dark) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          toggle.checked = true;
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          toggle.checked = false;
+        }
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      }
+      
+      applyTheme(isDark);
+      
+      toggle.addEventListener('change', function () {
+        applyTheme(toggle.checked);
+      });
+    })();
+    
+    // Bubble pop sound
     (function () {
       function playPopSound() {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
